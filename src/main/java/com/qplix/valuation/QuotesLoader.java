@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NavigableMap;
+import java.util.TreeMap;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
@@ -40,22 +41,21 @@ public class QuotesLoader {
 
                 String dateString = csvRecord.get("Date");
                 validateStringValue(dateString, "Missing date for quote");
-                LocalDate quoteDate = LocalDate.parse(dateString);
+                LocalDate date = LocalDate.parse(dateString);
 
                 String pricePerShareString = csvRecord.get("PricePerShare");
                 validateStringValue(pricePerShareString, "Missing price per share for quote");
                 BigDecimal pricePerShare = new BigDecimal(pricePerShareString);
 
-                addQuote(isin, quoteDate, pricePerShare, newQuotes);
+                addQuote(isin, date, pricePerShare, newQuotes);
             }
         } catch (Exception e) {
-            log.error("Error reading Quotes", e);
-            return;
+            throw new IllegalArgumentException("Unable to load quotes from file " + fileName, e);
         }
 
-        log.info("Loaded {} quotes", newQuotes.size());
-
         quotes = newQuotes;
+
+        log.info("Loaded {} quotes", newQuotes.size());
     }
 
     /**
@@ -95,10 +95,10 @@ public class QuotesLoader {
                 .sum();
     }
 
-    private void addQuote(String isin, LocalDate quoteDate, BigDecimal pricePerShare,
+    private void addQuote(String isin, LocalDate date, BigDecimal pricePerShare,
                           Map<String, NavigableMap<LocalDate, BigDecimal>> newQuotes) {
-        newQuotes.computeIfAbsent(isin, k -> new java.util.TreeMap<>())
-                .put(quoteDate, pricePerShare);
+        newQuotes.computeIfAbsent(isin, k -> new TreeMap<>())
+                .put(date, pricePerShare);
     }
 
     private static void validateStringValue(String stringValue, String exceptionMessage) {

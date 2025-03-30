@@ -14,7 +14,7 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 
 @Slf4j
-public class InvestmentsReader {
+public class InvestmentsLoader {
 
     /**
      * Represents raw investments read from the file indexed by investorId.
@@ -31,6 +31,8 @@ public class InvestmentsReader {
      * @param fileName file name to load
      */
     public void load(String fileName) {
+        log.info("Loading Investments");
+
         // load investments
         List<Investment> investments = loadInvestments(fileName);
 
@@ -39,6 +41,8 @@ public class InvestmentsReader {
 
         // clear the cached investment trees
         fundInvestmentTreesByFondsInvestor = new HashMap<>();
+
+        log.info("Loaded {} Investments for {} investors", investments.size(), investmentsByInvestorId.size());
     }
 
     public InvestorTree getInvestmentTree(String investorId) {
@@ -111,7 +115,6 @@ public class InvestmentsReader {
     }
 
     private List<Investment> loadInvestments(String fileName) {
-        log.info("Loading Investments");
         List<Investment> investments = new ArrayList<>();
 
         try (Reader reader = ResourceReaderFactory.resourceFileReader(fileName);
@@ -141,10 +144,8 @@ public class InvestmentsReader {
                         fondsInvestor));
             }
         } catch (Exception e) {
-            log.error("Error reading Investments", e);
+            throw new IllegalArgumentException("Unable to load investments from file " + fileName, e);
         }
-
-        log.info("Loaded {} Investments", investments.size());
 
         return investments;
     }
