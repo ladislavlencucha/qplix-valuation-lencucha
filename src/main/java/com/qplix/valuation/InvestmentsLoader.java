@@ -45,7 +45,7 @@ public class InvestmentsLoader {
         log.info("Loaded {} Investments for {} investors", investments.size(), investmentsByInvestorId.size());
     }
 
-    public InvestorTree getInvestmentTree(String investorId) {
+    public InvestorTree getInvestorTree(String investorId) {
         // filter investments by investorId and index by investmentId
         InvestorTree result = new InvestorTree(investorId, new ArrayList<>());
         filterInvestments(investorId, result, fundInvestmentTreesByFondsInvestor);

@@ -12,7 +12,7 @@ class InvestmentsLoaderTest {
         InvestmentsLoader investmentsLoader = new InvestmentsLoader();
         investmentsLoader.load("/InvestmentsLoaderTest/Investments.csv");
 
-        InvestmentsLoader.InvestorTree investor1 = investmentsLoader.getInvestmentTree("Investor1");
+        InvestmentsLoader.InvestorTree investor1 = investmentsLoader.getInvestorTree("Investor1");
         assertEquals(4, investor1.getUnderlyings().size(), "Investor1 should have 2 investments");
         assertThat(investor1.getUnderlyings())
                 .as("Investment into ISIN0 expected")
@@ -35,7 +35,7 @@ class InvestmentsLoaderTest {
                         && i.getInvestmentId().equals("I2")
                         && i.getUnderlyings().size() == 2);
 
-        InvestmentsLoader.InvestorTree fonds1 = investmentsLoader.getInvestmentTree("Fonds1");
+        InvestmentsLoader.InvestorTree fonds1 = investmentsLoader.getInvestorTree("Fonds1");
         assertThat(fonds1.getUnderlyings())
                 .as("Investment into Fonds2 expected")
                 .anyMatch(i -> i.getAssetId().equals("Fonds2")
@@ -47,7 +47,7 @@ class InvestmentsLoaderTest {
                         && i.getInvestmentId().equals("F2")
                         && i.getUnderlyings().isEmpty());
 
-        InvestmentsLoader.InvestorTree fonds2 = investmentsLoader.getInvestmentTree("Fonds2");
+        InvestmentsLoader.InvestorTree fonds2 = investmentsLoader.getInvestorTree("Fonds2");
         assertThat(fonds2.getUnderlyings())
                 .as("Investment into Fonds3 expected")
                 .anyMatch(i -> i.getAssetId().equals("Fonds3")
@@ -59,19 +59,19 @@ class InvestmentsLoaderTest {
                         && i.getInvestmentId().equals("F4")
                         && i.getUnderlyings().size() == 1);
 
-        InvestmentsLoader.InvestorTree fonds3 = investmentsLoader.getInvestmentTree("Fonds3");
+        InvestmentsLoader.InvestorTree fonds3 = investmentsLoader.getInvestorTree("Fonds3");
         assertThat(fonds3.getUnderlyings())
                 .as("No investments expected")
                 .isEmpty();
 
-        InvestmentsLoader.InvestorTree fonds4 = investmentsLoader.getInvestmentTree("Fonds4");
+        InvestmentsLoader.InvestorTree fonds4 = investmentsLoader.getInvestorTree("Fonds4");
         assertThat(fonds4.getUnderlyings())
                 .as("Investment into Fonds2 expected")
                 .anyMatch(i -> i.getAssetId().equals("Fonds2")
                         && i.getInvestmentId().equals("F5")
                         && i.getUnderlyings().size() == 2);
 
-        InvestmentsLoader.InvestorTree fonds5 = investmentsLoader.getInvestmentTree("Fonds5");
+        InvestmentsLoader.InvestorTree fonds5 = investmentsLoader.getInvestorTree("Fonds5");
         assertThat(fonds5.getUnderlyings())
                 .as("No investments expected")
                 .isEmpty();
