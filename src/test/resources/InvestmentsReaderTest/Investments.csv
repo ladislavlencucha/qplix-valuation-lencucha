@@ -1,0 +1,10 @@
+InvestorId;InvestmentId;InvestmentType;ISIN;City;FondsInvestor
+Investor1;I1;Fonds;;;Fonds1
+Investor1;I2;Fonds;;;Fonds2
+Fonds1;F1;Fonds;;;Fonds2
+Fonds1;F2;Fonds;;;Fonds3
+Fonds2;F3;Fonds;;;Fonds3
+Fonds2;F4;Fonds;;;Fonds4
+Fonds4;F5;Fonds;;;Fonds2
+Investor1;I3;Stock;ISIN0;;""
+Investor1;I4;RealEstate;;Bratislava;""
