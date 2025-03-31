@@ -96,8 +96,8 @@ class ValuationRunnerTest {
 
         BigDecimal result = valuationRunner.valuate("INV123", LocalDate.of(2023, 1, 1));
 
-        assertEquals(new BigDecimal("50000.0"), result,
-                "We have 50% in a Fund that consists of 100 Shares each worth 1000 of some ccy");
+        assertEquals(new BigDecimal("500.0"), result,
+                "We have 0.5% in a Fund that consists of 100 Shares each worth 1000 of some ccy");
     }
 
     @Test
@@ -140,7 +140,7 @@ class ValuationRunnerTest {
 
         BigDecimal result = valuationRunner.valuate("INV123", LocalDate.of(2023, 1, 1));
 
-        assertEquals(new BigDecimal("10000.00"), result,
-                "We have 50% in a Fund that consists of 20% Share in another Fund having 100 Shares each worth 1000 of some ccy");
+        assertEquals(new BigDecimal("1.00"), result,
+                "We have 0.5% in a Fund that consists of 0.2% Share in another Fund having 100 Shares each worth 1000 of some ccy");
     }
 }

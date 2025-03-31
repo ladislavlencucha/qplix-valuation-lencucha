@@ -1,6 +1,7 @@
 package com.qplix.valuation;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import lombok.extern.slf4j.Slf4j;
 
@@ -76,8 +77,8 @@ public class ValuationRunner {
         // Calculate the value of the fund
         BigDecimal fundValue = investmentValue(date, fundTree);
 
-        // Fund value is its value multiplied by total investments
-        return value.multiply(fundValue);
+        // Fund value is its value multiplied by total investments (divide by 100, because 100=100%)
+        return value.multiply(fundValue).divide(BigDecimal.valueOf(100), RoundingMode.HALF_UP);
     }
 
     private BigDecimal calculateRealEstate(InvestmentsLoader.InvestmentTree investment, LocalDate date) {

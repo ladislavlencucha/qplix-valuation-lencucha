@@ -14,7 +14,7 @@ The following assumptions were made in order to proceed with the development:
 * No special rounding handling is being done, simple multiplication and division is used.
 * Buying a Fund means buying percentage in it
 * Fund's value is estimated as total number of transactions made by the Fund
-* Percentage <0, 100%> is represented as <0, 1>
+* Percentage <0, 100%> is represented as <0, 100>
 
 ### What is not implemented: 
 * Further optimizations include pre-summing transaction values not to sum again from scratch
@@ -24,3 +24,4 @@ The following assumptions were made in order to proceed with the development:
 ### Some business insights
 * Having no liquidity/currency inflows/outflows make the whole thing strange (but simple)
 * We have no currency, thus everything is in some virtual currency and no FX conversion is being done
+* Fund investment is not based on units, but based on percentage bought, which is simplification to make the demo easier
