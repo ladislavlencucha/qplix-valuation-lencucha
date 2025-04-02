@@ -56,7 +56,9 @@ public class ValuationRunner {
                 case Fonds -> calculateFund(underlying, date);
             };
 
-            result = result.add(underlyingValue);
+            if (underlyingValue != null) { // null means no value available
+                result = result.add(underlyingValue);
+            }
         }
         return result;
     }
@@ -69,13 +71,17 @@ public class ValuationRunner {
             return BigDecimal.ZERO;
         }
         BigDecimal value = transactionsLoader.getValue(investment.getInvestmentId(), date);
-        if (value.compareTo(BigDecimal.ZERO) == 0) {
+        if (value == null || value.compareTo(BigDecimal.ZERO) == 0) {
             log.warn("Investor has no investment in {}", investment.getAssetId());
-            return BigDecimal.ZERO;
+            return null;
         }
 
         // Calculate the value of the fund
         BigDecimal fundValue = investmentValue(date, fundTree);
+        if (fundValue == null) {
+            log.warn("Investor's investment into fund {} has no value", investment.getAssetId());
+            return null;
+        }
 
         // Fund value is its value multiplied by total investments (divide by 100, because 100=100%)
         return value.multiply(fundValue).divide(BigDecimal.valueOf(100), RoundingMode.HALF_UP);
@@ -89,6 +95,16 @@ public class ValuationRunner {
     private BigDecimal calculateStockValue(InvestmentsLoader.InvestmentTree investment, LocalDate date) {
         BigDecimal value = transactionsLoader.getValue(investment.getInvestmentId(), date);
         BigDecimal quote = quotesLoader.getQuote(investment.getAssetId(), date);
+
+        if (value == null || value.compareTo(BigDecimal.ZERO) == 0) {
+            log.warn("Investor has no investment in {}", investment.getAssetId());
+            return null;
+        }
+        if (quote == null) {
+            log.warn("Investor has investment without any quote in {}", investment.getAssetId());
+            return null;
+        }
+
 
         // number of shares multiplied by their value
         return quote.multiply(value);
